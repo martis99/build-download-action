@@ -11,5 +11,5 @@ runs:
         token="${{inputs.token}}"
         response=$(curl -sS "https://api.github.com/repos/martis99/github-actions/actions/workflows/build.yml/runs?status=success&per_page=1")
         last_run_id=$(echo "$response" | jq -r '.workflow_runs[0].id')
-        echp "Last Successful Workflow Run ID: $last_run_id"
+        echo "Last Successful Workflow Run ID: $last_run_id"
         echo "::set-output name=run-id::$last_run_id"
