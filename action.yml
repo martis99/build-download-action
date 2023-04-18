@@ -1,0 +1,24 @@
+name: Download build
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Get Last Successful Workflow Run ID
+      run: |
+        repo="${{inputs.repository}}"
+        workflow="${{inputs.workflow}}"
+        token="${{inputs.token}}"
+        response=$(curl -sS "https://api.github.com/repos/martis99/github-actions/actions/workflows/build.yml/runs?status=success&per_page=1")
+        last_run_id=$(echo "$response" | jq -r '.workflow_runs[0].id')
+        echo "::set-output name=run-id::$last_run_id"
+
+    - name: Download Artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: ${{inputs.artifact-name}}
+        path: ${{inputs.download-path}}
+
+    - name: Set Artifacts Output
+      run: |
+        files=$(ls ${{inputs.download-path}})
+        echo "::set-output name=files::$files"
