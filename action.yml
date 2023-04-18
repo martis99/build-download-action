@@ -15,7 +15,7 @@ runs:
             console.log(`Last Successful Workflow Run ID: ${run_id}`);
             
             github.rest.actions.listWorkflowRunArtifacts({owner, repo, run_id}).then(({ data }) => {
-              data.artifacts.forEach(async (artifact) => {
+              data.artifacts.map(async (artifact, i) => {
                 const artifact_id = artifact.id;
                 console.log(`Downloading Artifact: ${artifact.name}`);
                  
