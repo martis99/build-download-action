@@ -4,6 +4,7 @@ runs:
   using: 'composite'
   steps:
     - name: Get Last Successful Workflow Run ID
+      shell: bash
       run: |
         repo="${{inputs.repository}}"
         workflow="${{inputs.workflow}}"
