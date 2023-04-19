@@ -16,7 +16,7 @@ runs:
           const fs = require('fs/promises');
           const owner = "martis99";
           const repo = "github-actions";
-          let run_id = inputs.run_id
+          let run_id = "${{ inputs.run_id }}"
           
           if (!run_id) {
             const { data } = await github.rest.actions.listWorkflowRuns({owner, repo, workflow_id: "${{ inputs.workflow }}.yml", status: "success", per_page: 1});
