@@ -16,14 +16,14 @@ runs:
           const fs = require('fs/promises');
           const owner = "martis99";
           const repo = "github-actions";
-          let run_id = "${{ inputs.run_id }}"
+          let run_id = inputs.run_id
           
           if (!run_id) {
             const { data } = await github.rest.actions.listWorkflowRuns({owner, repo, workflow_id: "${{ inputs.workflow }}.yml", status: "success", per_page: 1});
             run_id = data.workflow_runs[0].id;
           }
 
-          const { data } = await github.rest.actions.listWorkflowRunArtifacts({owner, repo, run_id: "${{ steps.get-run-id.outputs.result }}"});
+          const { data } = await github.rest.actions.listWorkflowRunArtifacts({owner, repo, run_id});
           await Promise.all(data.artifacts.map(async (artifact, i) => {
             const artifact_id = artifact.id;
             const { data } = await github.rest.actions.downloadArtifact({owner, repo, artifact_id, archive_format: 'zip'});
