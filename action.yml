@@ -38,7 +38,7 @@ runs:
           rm download*.zip
 
     - name: Add Permissions
-      if: runner.os == "Linux"
+      if: runner.os == 'Linux'
       shell: bash
       run: |
           chmod +x build-linux
