@@ -7,7 +7,7 @@ runs:
       uses: actions/github-script@v6
       with:
         script: |
-          const fs = require('fs/promises'); // use fs/promises instead of fs
+          const fs = require('fs/promises');
           const owner = "martis99";
           const repo = "github-actions";
 
@@ -20,7 +20,6 @@ runs:
               const { data: artifactData } = await github.rest.actions.listWorkflowRunArtifacts({owner, repo, run_id});
               await Promise.all(artifactData.artifacts.map(async (artifact, i) => {
                 const artifact_id = artifact.id;
-                console.log(`Downloading Artifact: ${artifact.name}`);
                 const { data } = await github.rest.actions.downloadArtifact({owner, repo, artifact_id, archive_format: 'zip'});
                 await fs.writeFile(`${process.env.GITHUB_WORKSPACE}/download${i}.zip`, Buffer.from(data));
                 console.log(`Artifact Downloaded: ${artifact.name}`);
