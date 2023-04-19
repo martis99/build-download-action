@@ -38,6 +38,7 @@ runs:
           rm download*.zip
 
     - name: Add Permissions
-      if: ${{ runner.os == "linux" }}
+      if: runner.os == "Linux"
       shell: bash
-      run: chmod +x build-linux
+      run: |
+          chmod +x build-linux
