@@ -32,6 +32,7 @@ runs:
           })();
 
     - name: Unzip
+      shell: bash
       run: |
           unzip -o 'download*.zip'
           rm download*.zip
