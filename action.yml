@@ -17,7 +17,7 @@ runs:
           const owner = "martis99";
           const repo = "github-actions";
           let run_id = "${{ inputs.run_id }}"
-          
+
           if (!run_id) {
             const { data } = await github.rest.actions.listWorkflowRuns({owner, repo, workflow_id: "${{ inputs.workflow }}.yml", status: "success", per_page: 1});
             run_id = data.workflow_runs[0].id;
@@ -36,4 +36,8 @@ runs:
       run: |
           unzip -o 'download*.zip'
           rm download*.zip
-          [ -e build-linux ] && chmod +x build-linux
+
+    - name: Add Permissions
+      if: ${{ runner.os == "linux" }}
+      shell: bash
+      run: chmod +x build-linux
