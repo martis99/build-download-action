@@ -11,3 +11,9 @@ jobs:
       - name: Download
         uses: martis99/build-download-action@main
       
+  Windows:
+    runs-on: windows-latest
+    
+    steps:
+      - name: Download
+        uses: martis99/build-download-action@main
