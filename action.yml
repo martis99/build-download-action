@@ -9,25 +9,6 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Get Run ID
-      id: get-run-id
-      if: inputs.run_id == ''
-      uses: actions/github-script@v6
-      with:
-        result-encoding: string
-        script: |
-          const { data } = await github.rest.actions.listWorkflowRuns({owner: "martis99", repo: "github-actions", workflow_id: "${{ inputs.workflow }}.yml", status: "success", per_page: 1});
-          return data.workflow_runs[0].id;
-
-    - name: Get Run ID
-      id: get-run-id
-      if: inputs.run_id != ''
-      uses: actions/github-script@v6
-      with:
-        result-encoding: string
-        script: |
-          return "${{ inputs.workflow }}";
-
     - name: Download
       uses: actions/github-script@v6
       with:
@@ -35,6 +16,12 @@ runs:
           const fs = require('fs/promises');
           const owner = "martis99";
           const repo = "github-actions";
+          let run_id = "${{ inputs.run_id }}"
+          
+          if (!run_id) {
+            const { data } = await github.rest.actions.listWorkflowRuns({owner, repo, workflow_id: "${{ inputs.workflow }}.yml", status: "success", per_page: 1});
+            run_id = data.workflow_runs[0].id;
+          }
 
           const { data } = await github.rest.actions.listWorkflowRunArtifacts({owner, repo, run_id: "${{ steps.get-run-id.outputs.result }}"});
           await Promise.all(data.artifacts.map(async (artifact, i) => {
