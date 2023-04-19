@@ -29,7 +29,7 @@ runs:
           const owner = "martis99";
           const repo = "github-actions";
 
-          const { data } = await github.rest.actions.listWorkflowRunArtifacts({owner, repo, run_id: ${{ inputs.run_id }}});
+          const { data } = await github.rest.actions.listWorkflowRunArtifacts({owner, repo, run_id: "${{ inputs.run_id }}"});
           await Promise.all(data.artifacts.map(async (artifact, i) => {
             const artifact_id = artifact.id;
             const { data } = await github.rest.actions.downloadArtifact({owner, repo, artifact_id, archive_format: 'zip'});
