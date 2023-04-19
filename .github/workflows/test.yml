@@ -1,19 +1,39 @@
 name: test
 
 on:
+  push:
+    branches: [ "main" ]
+    paths-ignore:
+      - '.github/**'
+
+  pull_request:
+    branches: [ "main" ]
+    paths-ignore:
+      - '.github/**'
+
   workflow_dispatch:
-  
+
 jobs:
   Linux:
     runs-on: ubuntu-latest
-    
+    strategy:
+      matrix:
+        workflow: [build, deploy]
+
     steps:
       - name: Download
         uses: martis99/build-download-action@main
-      
+        with:
+          workflow: ${{ matrix.workflow }}
+
   Windows:
     runs-on: windows-latest
-    
+    strategy:
+      matrix:
+        workflow: [build, deploy]
+
     steps:
       - name: Download
         uses: martis99/build-download-action@main
+        with:
+          workflow: ${{ matrix.workflow }}
