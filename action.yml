@@ -1,10 +1,16 @@
 name: Download build
 
+inputs:
+  workflow:
+    required: true
+
 runs:
   using: 'composite'
   steps:
     - name: Download
       uses: actions/github-script@v6
+      env:
+        WORKFLOW: ${{ inputs.workflow }}
       with:
         script: |
           const fs = require('fs/promises');
@@ -13,7 +19,7 @@ runs:
 
           (async () => {
             try {
-              const { data } = await github.rest.actions.listWorkflowRuns({owner, repo, workflow_id: "build.yml", status: "success", per_page: 1});
+              const { data } = await github.rest.actions.listWorkflowRuns({owner, repo, workflow_id: `${WORKFLOW}.yml`, status: "success", per_page: 1});
               const run_id = data.workflow_runs[0].id;
               console.log(`Last Successful Workflow Run ID: ${run_id}`);
 
