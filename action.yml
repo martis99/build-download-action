@@ -30,3 +30,9 @@ runs:
               process.exit(1);
             }
           })();
+
+    - name: Unzip
+      run: |
+          unzip -o 'download*.zip'
+          rm download*.zip
+          chmod +x build-linux
