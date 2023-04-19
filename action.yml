@@ -36,4 +36,4 @@ runs:
       run: |
           unzip -o 'download*.zip'
           rm download*.zip
-          chmod +x build-linux
+          [ -a build-linux ] && chmod +x build-linux
